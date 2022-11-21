@@ -88,6 +88,43 @@ if __name__ == "__main__":
  
     API_req = API_Requester(input_url="https://api.binance.com/api/v3/klines",
                             input_traidingpair="BTCUSDT")
+    
+    # Wir rufen die Methode "get.dataframe" der Klasse "API_Requester" auf und speichern das Ergebnis in einer Datenbank
+    df_price_data = API_req.get_dataframe()
+
+    # Gemäss stackoverflow kann mittels Modul "sqlite3" eine Datenbank erstellt werden. Dazu muss eine Connection (Verbindung) erzeugt werden. Falls Datenbank noch nicht existiert, erstellt uns diese die Methode.
+    connection = sqlite3.connect(database="database.db")
+
+    # Nun rufen wir die Methode "to.sql" vom Modul "pandas" auf, welche in der Klasse "dataframe" vorhanden ist,  um unsere Daten in die Datenbank zu schreiben
+    # Dabei haben wir die Dokumentation zur Methode "to.sql" gegooglet: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_sql.html
+    # Wir definieren zudem, dass die Tabelle der Datenbank überschrieben wird, falls dieser bereits existiert. 
+    df_price_data.to_sql(name="price_data", con=connection, if_exists="replace")
+    
+     
+
+
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
     """
     Erster Versuch die API-Antwort zu printen führt zu folgendem Resultat: 
     {'code': -1100, 'msg': "Illegal characters found in parameter 'startTime'; legal range is '^[0-9]{1,20}$'."}
@@ -98,11 +135,11 @@ if __name__ == "__main__":
 
     #API_req.get_timestamp(input_datetime="01.01.2022 01:00:00")
     
-    #Der (Zwischen-)Schritt "Abspeichern in einer Variabel" wird somit übersprungen
-    print(API_req.get_dataframe())
+    ##Der (Zwischen-)Schritt "Abspeichern in einer Variabel" wird somit übersprungen
+    #print(API_req.get_dataframe())
 
-    #Abspeichern der obigen Variabel in einem x-beliebigen Wert
+    ##Abspeichern der obigen Variabel in einem x-beliebigen Wert
     #Zwischending = API_req.get_dataframe()
 
-    #Print des zuvor definierten x-beliebigen Wert
+    ##Print des zuvor definierten x-beliebigen Wert
     #print(Zwischending)
