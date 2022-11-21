@@ -52,8 +52,37 @@ class API_Requester():
         """
             Methode um einen Pandas Dataframe zu erstellen
         """
-        pass
+        #Pass -> Methode bereits definiert, aber noch nicht fertig, damit keine Fehler aufpoppen
 
+        """
+        Wir rufen die Funktion "get_raw_data" auf und speichern das Ergebnis in "input_data" ab
+        Die Variable "input_data" ist vom Typ Liste von Liste (Meta-Liste)
+        """
+    
+        input_data = self.get_raw_data()
+        #Pandas Modul, wir wollen eine Klasse "DataFrame" instanzieren (bedeutet in etwa "ins Leben rufen")
+        #Plan wäre pd.DataFrame und mit Klammer (data=input_data) ist der Aufruf -> Ausführung des Plan
+        df = pd.DataFrame(data=input_data)
+
+        #Ich übergebe dem Dataframe die Namen der Kolonnen, die Anzahl Namen der Kolonnen muss mit der Anzahl Kolonnen im Dataframe übereinstimmen
+        df.columns = [
+            "Kline open time",
+            "Open price",
+            "High price",
+            "Low price",
+            "Close price",
+            "Volume",
+            "Kline Close time",
+            "Quote asset volume",
+            "Number of trades",
+            "Taker buy base asset volume",
+            "Taker buy quote asset volume",
+            "Unused"
+        ]
+        #Wir wählen alle Zeilen (rows) mittels : aus und zusätzlich nur die drei folgenden Spalten, die restlichen fallen weg
+        df = df.loc[:,["Kline Close time", "Close price", "Volume"]]
+
+        return df #print(df) Printet es aus
 
 if __name__ == "__main__":
  
@@ -65,6 +94,15 @@ if __name__ == "__main__":
     jetzt funktioniert er, weil wir die 'startTime': self.get_timestamp(input_datetime="01.01.2022 01:00:00"), 
     und die 'endTime': self.get_timestamp(input_datetime="13.11.2022 01:00:00"), angepasst haben  
     """
-    print(API_req.get_raw_data())
+    #print(API_req.get_raw_data())
 
     #API_req.get_timestamp(input_datetime="01.01.2022 01:00:00")
+    
+    #Der (Zwischen-)Schritt "Abspeichern in einer Variabel" wird somit übersprungen
+    print(API_req.get_dataframe())
+
+    #Abspeichern der obigen Variabel in einem x-beliebigen Wert
+    #Zwischending = API_req.get_dataframe()
+
+    #Print des zuvor definierten x-beliebigen Wert
+    #print(Zwischending)
