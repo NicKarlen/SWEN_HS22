@@ -19,12 +19,15 @@ class API_Requester():
         self.url = input_url
         self.traidingpair = input_traidingpair
 
-    def get_timestamp(self, input_datetime) -> int:
+    def get_timestamp(self, input_datetime: str) -> int:
         """
             Methode um aus einem lesbaren Timestamp einen UNIX-Timestamp zu machen (wird für die API Abfrage verwendet)
         """
-
-
+        #print(int(datetime.strptime(input_datetime, '%d.%m.%Y %H:%M:%S').timestamp() * 1000))
+         
+        #Hier wird aus dem Datum im Format Tag Monat Jahr Stunde Minute Sekunde mittels der Methode strptime ein Objekt der Klasse datetime erstellt und anschliessed daraus ein UNIX timestamp als int zurückgegeben
+        return int(datetime.strptime(input_datetime, '%d.%m.%Y %H:%M:%S').timestamp() * 1000)
+    
     def get_raw_data(self) -> list[list]:
         """
             In der API-Dokumentation werden die benötigten Parameter angegeben. Diese werden nachfolgend als Dictionnary definiert
@@ -34,8 +37,8 @@ class API_Requester():
         params = {            
             'symbol' : self.traidingpair,
             'interval': "1d",
-            'startTime': "01.01.2022 01:00:00",
-            'endTime': "13.11.2022 01:00:00",
+            'startTime': self.get_timestamp(input_datetime="01.01.2022 01:00:00"),
+            'endTime': self.get_timestamp(input_datetime="13.11.2022 01:00:00"),
             'limit': 1000
         }
 
@@ -59,7 +62,9 @@ if __name__ == "__main__":
     """
     Erster Versuch die API-Antwort zu printen führt zu folgendem Resultat: 
     {'code': -1100, 'msg': "Illegal characters found in parameter 'startTime'; legal range is '^[0-9]{1,20}$'."}
+    jetzt funktioniert er, weil wir die 'startTime': self.get_timestamp(input_datetime="01.01.2022 01:00:00"), 
+    und die 'endTime': self.get_timestamp(input_datetime="13.11.2022 01:00:00"), angepasst haben  
     """
     print(API_req.get_raw_data())
 
-
+    #API_req.get_timestamp(input_datetime="01.01.2022 01:00:00")
