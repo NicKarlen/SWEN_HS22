@@ -9,10 +9,12 @@ import sqlite3
 """
 class API_Requester():
 
-    
+    # Konstruktor - Wird benötigt um die Klasse zu instanzieren
     def __init__(self, input_url: str, input_traidingpair: str) -> None:
         """
-            # Konstruktor - Wird benötigt um die Klasse zu instanzieren
+        Hier werden die Variablen für die Klassen definiert/übergeben
+        URL:            ist URL/Endpunkt der Binance-API
+        Tradingpair:    ist das zu untersuchende Tradingpair
         """
         self.url = input_url
         self.traidingpair = input_traidingpair
@@ -25,8 +27,23 @@ class API_Requester():
 
     def get_raw_data(self) -> list[list]:
         """
-            Methode um die Daten via Request von der API von Binance abzurufen.
+            In der API-Dokumentation werden die benötigten Parameter angegeben. Diese werden nachfolgend als Dictionnary definiert
+            Die bei der Instanzierung übergebenen Variablen (URL + Tradingpair) und die nachfolgend definierten Parameter werden der "get"-Methode des "requests"-Moduls übergeben.
+            
         """
+        params = {            
+            'symbol' : self.traidingpair,
+            'interval': "1d",
+            'startTime': "01.01.2022 01:00:00",
+            'endTime': "13.11.2022 01:00:00",
+            'limit': 1000
+        }
+
+        # Die "get"-Methode des "requests"-Moduls wird mit unseren Parameter ausgeführt und deren Resultat in der Variablen "req" abgespeichert
+        req = requests.get(url=self.url, params=params)
+        
+        # Wir konvertieren den erhaltenen String in Form einer Liste von Liste in den Datentyp Liste von Liste
+        return json.loads(req.text)       
 
     def get_dataframe(self) -> pd.DataFrame:
         """
@@ -39,7 +56,10 @@ if __name__ == "__main__":
  
     API_req = API_Requester(input_url="https://api.binance.com/api/v3/klines",
                             input_traidingpair="BTCUSDT")
-
-
+    """
+    Erster Versuch die API-Antwort zu printen führt zu folgendem Resultat: 
+    {'code': -1100, 'msg': "Illegal characters found in parameter 'startTime'; legal range is '^[0-9]{1,20}$'."}
+    """
+    print(API_req.get_raw_data())
 
 
