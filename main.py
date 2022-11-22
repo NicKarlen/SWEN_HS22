@@ -3,10 +3,12 @@ from datetime import datetime
 import json
 import pandas as pd
 import sqlite3
+import visu
 
 """
     API doku: https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list 
 """
+
 class API_Requester():
 
     # Konstruktor - Wird benötigt um die Klasse zu instanzieren
@@ -84,8 +86,11 @@ class API_Requester():
 
         return df #print(df) Printet es aus
 
-if __name__ == "__main__":
- 
+
+def gather_data():
+    """
+        Funktion um die Daten herunter zu laden und in der Datenbank abzuspeichern.
+    """
     API_req = API_Requester(input_url="https://api.binance.com/api/v3/klines",
                             input_traidingpair="BTCUSDT")
     
@@ -99,8 +104,22 @@ if __name__ == "__main__":
     # Dabei haben wir die Dokumentation zur Methode "to.sql" gegooglet: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_sql.html
     # Wir definieren zudem, dass die Tabelle der Datenbank überschrieben wird, falls dieser bereits existiert. 
     df_price_data.to_sql(name="price_data", con=connection, if_exists="replace")
+
+
+if __name__ == "__main__":
+    # Ein print statement damit wir wissen ob der Code am laufen ist.
+    print("Code running...")
+ 
+
+    # gather_data()
+
+    df = visu.get_data_from_DB()
+
+    print(df)
     
-     
+
+    # Print statement damit wir wissen wann der Code fertig durchlaufen ist.
+    print("Code finished!")
 
 
     
