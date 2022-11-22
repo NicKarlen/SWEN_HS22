@@ -106,14 +106,30 @@ def gather_data():
     df_price_data.to_sql(name="price_data", con=connection, if_exists="replace")
 
 
+def get_data_from_DB() -> pd.DataFrame:
+    """
+    Wir holen die Daten aus der DB aus und speichern es in einem Dataframe
+    """
+    #Wie im ersten File verwenden wir das Modul sqlite3 mit deren Funktion wir eine Verbindung zur Datenbank database.db aufbauen.
+    connection = sqlite3.connect(database="database.db")
+    
+    #Wir lesen die Tabelle aus der Datenbank aus. Wir nehmen sämtliche Spalten aus der Tabelle "price_data".
+    df = pd.read_sql(sql="SELECT * FROM price_data", con=connection)
+    #Wir wählen alle Reihen aus und spezifisch die drei Kolonnen "Kline Close time","Close price", "Volume" aus und speichern es in einem Datenframe
+    df = df.loc[:,["Kline Close time","Close price", "Volume"]]
+    #Wir geben den Wert df (Variable Dataframe) zurück
+    return df
+
+
+
 if __name__ == "__main__":
     # Ein print statement damit wir wissen ob der Code am laufen ist.
     print("Code running...")
  
-
+    # Die Funktion wird verwendet, um die Daten herunterzuladen und in einer Datenbank abzuspeichern.
     # gather_data()
 
-    df = visu.get_data_from_DB()
+    df = get_data_from_DB()
 
     print(df)
     
