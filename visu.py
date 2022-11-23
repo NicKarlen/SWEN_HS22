@@ -3,6 +3,11 @@ Wir importieren die Packages, welche wir gebrauchen.
 Neu kommt streamlit hinzu, da wir uns dazu entschieden haben, die Visualisierung über Streamlit zu machen.
 Ggf. Streamlit Modul noch innerhalb Python installieren
 Modul um unsere Daten in einem Streamlit server anzuzeigen.
+
+URL zu gehosteter Website (streamlit):
+
+https://nickarlen-swen-hs22-visu-gy70ng.streamlit.app/ 
+
 """
 
 import streamlit as st
