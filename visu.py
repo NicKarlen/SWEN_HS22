@@ -8,6 +8,9 @@ URL zu gehosteter Website (streamlit):
 
 https://nickarlen-swen-hs22-visu-gy70ng.streamlit.app/ 
 
+
+Um streamlit lokal zu hosten - in Terminal: streamlit run visu.py
+
 """
 
 import streamlit as st
@@ -15,6 +18,7 @@ import sqlite3
 import pandas as pd
 import numpy as np
 from datetime import datetime
+import main
 
 
 
@@ -31,6 +35,9 @@ def get_data_from_DB() -> pd.DataFrame:
     df = df.loc[:,["Kline Close time","Close price", "Volume"]]
     #Wir geben den Wert df (Variable Dataframe) zurück
     return df
+
+# Titel der Website (Tab-name) und icon von einer url genommen.
+st.set_page_config(page_title="SWEN_2022", page_icon="https://cdn-icons-png.flaticon.com/512/5968/5968260.png")
 
 #Hier wird der angezeigte Titel auf dem Streamlit definiert
 st.title("Visualisierung BTCUSDT 01.-12.2022")
@@ -55,3 +62,5 @@ df_btcusdt = df_btcusdt.apply(modify_data, axis=1)
 
 # Wir plotten ein Line-Charte über Streamlit und definieren die x-Achse sowie die y-Achse aus unserem df_btcusdt
 st.line_chart(data=df_btcusdt, x="date", y="Close price")
+# Ein Button um die Funktion gather_data vom modul main zu triggern um neue Daten herunterzuladen
+st.button(label="Collect new data",on_click=main.gather_data)

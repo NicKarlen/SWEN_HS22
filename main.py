@@ -3,7 +3,8 @@ from datetime import datetime
 import json
 import pandas as pd
 import sqlite3
-import visu
+# import von visu musste auskommentier werden wegen einem Fehler von einem "circular import..."
+#import visu
 
 """
     API doku: https://binance-docs.github.io/apidocs/spot/en/#compressed-aggregate-trades-list 
@@ -40,7 +41,7 @@ class API_Requester():
             'symbol' : self.traidingpair,
             'interval': "1d",
             'startTime': self.get_timestamp(input_datetime="01.01.2022 01:00:00"),
-            'endTime': self.get_timestamp(input_datetime="13.11.2022 01:00:00"),
+            'endTime': self.get_timestamp(input_datetime=datetime.now().strftime('%d.%m.%Y %H:%M:%S')), # Hier nehmen wir nun den aktuellen timestamp und nicht mehr den hardcoded time-string
             'limit': 1000
         }
 
@@ -114,9 +115,8 @@ if __name__ == "__main__":
     # Die Funktion wird verwendet, um die Daten herunterzuladen und in einer Datenbank abzuspeichern.
     # gather_data()
 
-    df = visu.get_data_from_DB()
-
-    print(df)
+    #df = visu.get_data_from_DB()
+    #print(df)
     
 
     # Print statement damit wir wissen wann der Code fertig durchlaufen ist.
