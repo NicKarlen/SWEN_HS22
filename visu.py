@@ -22,20 +22,6 @@ import main
 
 
 
-def get_data_from_DB() -> pd.DataFrame:
-    """
-    Wir holen die Daten aus der DB aus und speichern es in einem Dataframe
-    """
-    #Wie im ersten File verwenden wir das Modul sqlite3 mit deren Funktion wir eine Verbindung zur Datenbank database.db aufbauen.
-    connection = sqlite3.connect(database="database.db")
-    
-    #Wir lesen die Tabelle aus der Datenbank aus. Wir nehmen sämtliche Spalten aus der Tabelle "price_data".
-    df = pd.read_sql(sql="SELECT * FROM price_data", con=connection)
-    #Wir wählen alle Reihen aus und spezifisch die drei Kolonnen "Kline Close time","Close price", "Volume" aus und speichern es in einem Datenframe
-    df = df.loc[:,["Kline Close time","Close price", "Volume"]]
-    #Wir geben den Wert df (Variable Dataframe) zurück
-    return df
-
 # Titel der Website (Tab-name) und icon von einer url genommen.
 st.set_page_config(page_title="SWEN_2022", page_icon="https://cdn-icons-png.flaticon.com/512/5968/5968260.png")
 
@@ -43,7 +29,7 @@ st.set_page_config(page_title="SWEN_2022", page_icon="https://cdn-icons-png.flat
 st.title("Visualisierung BTCUSDT 01.-12.2022")
 
 #Hier wird die Funktion "get_...." aufgerufen und wir erhalten einen Dataframe zurück, der in der Variable df_btcusdt gespeichert wird
-df_btcusdt = get_data_from_DB()
+df_btcusdt = main.get_data_from_DB()
 
 
 def modify_data(row):

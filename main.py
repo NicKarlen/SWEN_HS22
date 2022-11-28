@@ -56,12 +56,9 @@ class API_Requester():
             Methode um einen Pandas Dataframe zu erstellen
         """
         #Pass -> Methode bereits definiert, aber noch nicht fertig, damit keine Fehler aufpoppen
-
-        """
-        Wir rufen die Funktion "get_raw_data" auf und speichern das Ergebnis in "input_data" ab
-        Die Variable "input_data" ist vom Typ Liste von Liste (Meta-Liste)
-        """
-    
+        
+        # Wir rufen die Funktion "get_raw_data" auf und speichern das Ergebnis in "input_data" ab
+        # Die Variable "input_data" ist vom Typ Liste von Liste (Meta-Liste)
         input_data = self.get_raw_data()
         #Pandas Modul, wir wollen eine Klasse "DataFrame" instanzieren (bedeutet in etwa "ins Leben rufen")
         #Plan wäre pd.DataFrame und mit Klammer (data=input_data) ist der Aufruf -> Ausführung des Plan
@@ -107,13 +104,27 @@ def gather_data():
     df_price_data.to_sql(name="price_data", con=connection, if_exists="replace")
 
 
+def get_data_from_DB() -> pd.DataFrame:
+    """
+    Wir holen die Daten aus der DB aus und speichern es in einem Dataframe
+    """
+    #Wie im ersten File verwenden wir das Modul sqlite3 mit deren Funktion wir eine Verbindung zur Datenbank database.db aufbauen.
+    connection = sqlite3.connect(database="database.db")
+    
+    #Wir lesen die Tabelle aus der Datenbank aus. Wir nehmen sämtliche Spalten aus der Tabelle "price_data".
+    df = pd.read_sql(sql="SELECT * FROM price_data", con=connection)
+    #Wir wählen alle Reihen aus und spezifisch die drei Kolonnen "Kline Close time","Close price", "Volume" aus und speichern es in einem Datenframe
+    df = df.loc[:,["Kline Close time","Close price", "Volume"]]
+    #Wir geben den Wert df (Variable Dataframe) zurück
+    return df
+    
 
 if __name__ == "__main__":
     # Ein print statement damit wir wissen ob der Code am laufen ist.
     print("Code running...")
  
     # Die Funktion wird verwendet, um die Daten herunterzuladen und in einer Datenbank abzuspeichern.
-    # gather_data()
+    gather_data()
 
     #df = visu.get_data_from_DB()
     #print(df)
