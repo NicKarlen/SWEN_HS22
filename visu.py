@@ -53,7 +53,8 @@ def gather_data_wrapper():
     try:
         main.gather_data()
     except:
-        st.text("Daten konnten nicht geladen werden")
+        st.text("Daten konnten nicht geladen werden:")
+        st.text(main.API_req.last_req_response)
 
 # Ein Button um die Funktion gather_data vom modul main zu triggern um neue Daten herunterzuladen
 st.button(label="Collect new data",on_click=gather_data_wrapper)

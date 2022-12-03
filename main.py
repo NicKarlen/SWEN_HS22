@@ -12,6 +12,8 @@ import sqlite3
 
 class API_Requester():
 
+    last_req_response: str = None
+
     # Konstruktor - Wird benötigt um die Klasse zu instanzieren
     def __init__(self, input_url: str, input_traidingpair: str) -> None:
         """
@@ -47,7 +49,7 @@ class API_Requester():
 
         # Die "get"-Methode des "requests"-Moduls wird mit unseren Parameter ausgeführt und deren Resultat in der Variablen "req" abgespeichert
         req = requests.get(url=self.url, params=params)
-        print(req.text)
+        self.last_req_response = req.text
         # Wir konvertieren den erhaltenen String in Form einer Liste von Liste in den Datentyp Liste von Liste
         return json.loads(req.text)       
 
@@ -89,9 +91,6 @@ def gather_data():
     """
         Funktion um die Daten herunter zu laden und in der Datenbank abzuspeichern.
     """
-    API_req = API_Requester(input_url="https://api2.binance.com/api/v3/klines",
-                            input_traidingpair="BTCUSDT")
-    
     # Wir rufen die Methode "get.dataframe" der Klasse "API_Requester" auf und speichern das Ergebnis in einer Datenbank
     df_price_data = API_req.get_dataframe()
 
@@ -118,6 +117,11 @@ def get_data_from_DB() -> pd.DataFrame:
     #Wir geben den Wert df (Variable Dataframe) zurück
     return df
     
+
+# Instanzieren der API_Requester Klasse
+API_req = API_Requester(input_url="https://api2.binance.com/api/v3/klines",
+                        input_traidingpair="BTCUSD")
+
 
 if __name__ == "__main__":
     # Ein print statement damit wir wissen ob der Code am laufen ist.
