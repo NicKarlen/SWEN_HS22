@@ -6,7 +6,7 @@ Modul um unsere Daten in einem Streamlit server anzuzeigen.
 
 URL zu gehosteter Website (streamlit):
 
-https://nickarlen-swen-hs22-visu-gy70ng.streamlit.app/ 
+https://nickarlen-swen-hs22-visu-91na1b.streamlit.app/
 
 
 Um streamlit lokal zu hosten - in Terminal: streamlit run visu.py
@@ -14,7 +14,6 @@ Um streamlit lokal zu hosten - in Terminal: streamlit run visu.py
 """
 
 import streamlit as st
-import sqlite3
 import pandas as pd
 import numpy as np
 from datetime import datetime
