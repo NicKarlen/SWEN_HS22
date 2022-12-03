@@ -47,5 +47,13 @@ df_btcusdt = df_btcusdt.apply(modify_data, axis=1)
 
 # Wir plotten ein Line-Charte über Streamlit und definieren die x-Achse sowie die y-Achse aus unserem df_btcusdt
 st.line_chart(data=df_btcusdt, x="date", y="Close price")
+
+# Wir mussten wie eine wrapper Funktion verwenden damit ein Fehler abgefangen werden kann. Try / Except funktionierte nicht direkt über dem "st.button" element.
+def gather_data_wrapper():
+    try:
+        main.gather_data()
+    except:
+        st.text("Daten konnten nicht geladen werden")
+
 # Ein Button um die Funktion gather_data vom modul main zu triggern um neue Daten herunterzuladen
-st.button(label="Collect new data",on_click=main.gather_data)
+st.button(label="Collect new data",on_click=gather_data_wrapper)
