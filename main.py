@@ -47,7 +47,7 @@ class API_Requester():
 
         # Die "get"-Methode des "requests"-Moduls wird mit unseren Parameter ausgeführt und deren Resultat in der Variablen "req" abgespeichert
         req = requests.get(url=self.url, params=params)
-        
+        print(req.text)
         # Wir konvertieren den erhaltenen String in Form einer Liste von Liste in den Datentyp Liste von Liste
         return json.loads(req.text)       
 
