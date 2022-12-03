@@ -89,7 +89,7 @@ def gather_data():
     """
         Funktion um die Daten herunter zu laden und in der Datenbank abzuspeichern.
     """
-    API_req = API_Requester(input_url="https://api.binance.com/api/v3/klines",
+    API_req = API_Requester(input_url="https://api2.binance.com/api/v3/klines",
                             input_traidingpair="BTCUSDT")
     
     # Wir rufen die Methode "get.dataframe" der Klasse "API_Requester" auf und speichern das Ergebnis in einer Datenbank
