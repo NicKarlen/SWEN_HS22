@@ -120,7 +120,7 @@ def get_data_from_DB() -> pd.DataFrame:
 
 # Instanzieren der API_Requester Klasse
 API_req = API_Requester(input_url="https://api2.binance.com/api/v3/klines",
-                        input_traidingpair="BTCUSD")
+                        input_traidingpair="BTCUSDT")
 
 
 if __name__ == "__main__":
